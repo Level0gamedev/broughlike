@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<title>TODO title</title>
+
+<style>
+    canvas{
+        outline: 1px solid white;
+    }
+    body{
+        background-color: #1b1513; //TODO change bg color
+        text-align: center;
+        margin-top: 50px;
+    }
+</style>
+
+
+<script src="js/game.js"></script>
+<script src="js/map.js"></script>
+<script src="js/tile.js"></script>
+<script src="js/monster.js"></script>
+<script src="js/util.js"></script>
+<script src="js/spell.js"></script>
+
+<canvas></canvas>
+
+<script>
+  art_size = 16; //actual size of art assets
+  scale = 4;  //TODO make scalable with window size
+  tile_size = art_size * scale; //rendered size of art aseets
+  num_tiles = 9;
+  ui_width = 4;
+
+  //setup player stuff
+  x = y = 0;
+
+  spritesheet = new Image();
+  spritesheet.src = 'assets/spritesheet.png';
+
+  //temp movement function
+  document.querySelector("html").onkeypress = function(e){
+  if(e.key=="w") y--;
+  if(e.key=="s") y++;
+  if(e.key=="a") x--;
+  if(e.key=="d") x++;
+  };
+
+  setup_canvas();
+  draw_game();
+  setInterval(draw_game, 15);
+</script>
