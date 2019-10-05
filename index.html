@@ -36,11 +36,11 @@
   spritesheet.src = 'assets/spritesheet.png';
 
   //temp movement function
-  document.querySelector("html").onkeypress = function(e){
-  if(e.key=="w") y--;
-  if(e.key=="s") y++;
-  if(e.key=="a") x--;
-  if(e.key=="d") x++;
+  document.querySelector("html").onkeydown = function(e){
+  if(e.key=="w" || e.keyCode == '38') y--;
+  if(e.key=="s" || e.keyCode == '40') y++;
+  if(e.key=="a" || e.keyCode == '37') x--;
+  if(e.key=="d" || e.keyCode == '39') x++;
   };
 
   setup_canvas();
