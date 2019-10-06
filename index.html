@@ -45,6 +45,11 @@
 
   setup_canvas();
   generate_level();
+
+  starting_tile = get_random_passable_tile();
+  x = starting_tile.x;
+  y = starting_tile.y;
+
   draw_game();
   setInterval(draw_game, 15);
 </script>
