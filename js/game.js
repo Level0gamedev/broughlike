@@ -25,6 +25,14 @@ function draw_sprite(sprite,x,y) {
 }
 function draw_game() {
   ctx.clearRect(0,0,canvas.width,canvas.height); //clear screen
+
+  //draw map
+  for(let i=0;i<num_tiles;i++){
+      for(let j=0;j<num_tiles;j++){
+          get_tile(i,j).draw();
+      }
+  }
+
+  //draw player
   draw_sprite(0,x,y);
-  //ctx.fillRect(x*tile_size,y*tile_size,tile_size,tile_size); //draw rect
 }
