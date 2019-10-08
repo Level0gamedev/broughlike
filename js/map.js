@@ -2,7 +2,7 @@ function generate_level() {
   try_to('generate the level', function(){
     return generate_tiles() == get_random_passable_tile().get_connected_tiles().length;
   });
-  //generate_tiles();
+  generate_monsters();
 }
 
 function generate_tiles(){
@@ -44,4 +44,18 @@ function get_random_passable_tile(){
     return tile.passable && !tile.monster;
   });
   return tile;
+}
+
+function generate_monsters() {
+  monsters = [];
+  let num_monsters = level +1;
+  for (let i=0; i<num_monsters; i++){
+    spawn_monster();
+  }
+}
+
+function spawn_monster() {
+  let monster_type = shuffle([Zombie, Skeleton, Bloater, Vampire, Ghost])[0];
+  let monster = new monster_type(get_random_passable_tile());
+  monsters.push(monster);
 }

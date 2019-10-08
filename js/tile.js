@@ -7,6 +7,11 @@ class Tile {
     this.actionable = actionable || false;
   }
 
+  //manhattan distance
+    dist(other){
+        return Math.abs(this.x-other.x)+Math.abs(this.y-other.y);
+    }
+
   get_neighbor(dx,dy){
     return get_tile(this.x + dx, this.y + dy);
   }

@@ -1,17 +1,21 @@
-<!DOCTYPE html>
-<title>TODO title</title>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>TODO Title</title>
+    <style>
+        canvas{
+            outline: 1px solid white;
+        }
+        body{
+            background-color: #1b1513; //TODO change bg color
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
+</head>
 
-<style>
-    canvas{
-        outline: 1px solid white;
-    }
-    body{
-        background-color: #1b1513; //TODO change bg color
-        text-align: center;
-        margin-top: 50px;
-    }
-</style>
-
+<body>
 
 <script src="js/game.js"></script>
 <script src="js/map.js"></script>
@@ -29,27 +33,25 @@
   num_tiles = 9;
   ui_width = 4;
 
-  //setup player stuff
-  x = y = 0;
+  level = 1;
 
   spritesheet = new Image();
   spritesheet.src = 'assets/spritesheet.png';
 
   //temp movement function
   document.querySelector("html").onkeydown = function(e){
-  if(e.key=="w" || e.keyCode == '38') y--;
-  if(e.key=="s" || e.keyCode == '40') y++;
-  if(e.key=="a" || e.keyCode == '37') x--;
-  if(e.key=="d" || e.keyCode == '39') x++;
+  if(e.key=="w" || e.keyCode == '38') player.try_move(0,-1);
+  if(e.key=="s" || e.keyCode == '40') player.try_move(0,1);
+  if(e.key=="a" || e.keyCode == '37') player.try_move(-1,0);
+  if(e.key=="d" || e.keyCode == '39') player.try_move(1,0);
   };
 
   setup_canvas();
   generate_level();
-
-  starting_tile = get_random_passable_tile();
-  x = starting_tile.x;
-  y = starting_tile.y;
+  player = new Player(get_random_passable_tile());
 
   draw_game();
   setInterval(draw_game, 15);
 </script>
+
+</body>

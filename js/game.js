@@ -23,6 +23,7 @@ function draw_sprite(sprite,x,y) {
     tile_size
   );
 }
+
 function draw_game() {
   ctx.clearRect(0,0,canvas.width,canvas.height); //clear screen
 
@@ -33,6 +34,21 @@ function draw_game() {
       }
   }
 
+  //draw monsters
+  for (let i=0; i<monsters.length;i++){
+    monsters[i].draw();
+  }
+
   //draw player
-  draw_sprite(0,x,y);
+  player.draw();
+}
+
+function tick() {
+  for (let k=monsters.length-1;k>=0;k--){
+    if (!monsters[k].dead) {
+      monsters[k].update();
+    }else{
+      monsters.splice(k,1);
+    }
+  }
 }
