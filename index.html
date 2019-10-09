@@ -26,7 +26,18 @@
 
 <canvas></canvas>
 
+
 <script>
+/*
+######   ######   ########  #### ########  ########
+##    ## ##    ## ##     ##  ##  ##     ##    ##
+##       ##       ##     ##  ##  ##     ##    ##
+ ######  ##       ########   ##  ########     ##
+     ##  ##       ##   ##    ##  ##           ##
+##    ## ##    ## ##    ##   ##  ##           ##
+ ######   ######  ##     ## #### ##           ##
+*/
+
   art_size = 16; //actual size of art assets
   scale = 4;  //TODO make scalable with window size
   tile_size = art_size * scale; //rendered size of art aseets
@@ -38,18 +49,30 @@
   spritesheet = new Image();
   spritesheet.src = 'assets/spritesheet.png';
 
-  //temp movement function
+  spritesheet.onload = show_title;
+
+  game_state = "loading";
+
+  starting_hp = 3;
+  levels = 6;
+
+
+
   document.querySelector("html").onkeydown = function(e){
-  if(e.key=="w" || e.keyCode == '38') player.try_move(0,-1);
-  if(e.key=="s" || e.keyCode == '40') player.try_move(0,1);
-  if(e.key=="a" || e.keyCode == '37') player.try_move(-1,0);
-  if(e.key=="d" || e.keyCode == '39') player.try_move(1,0);
+    if (game_state == "title") {
+      start_game();
+    }else if (game_state == "dead") {
+      show_title();
+    }else if (game_state == "dungeon") {
+      //movement function
+      if(e.key=="w" || e.keyCode == '38') player.try_move(0,-1);
+      if(e.key=="s" || e.keyCode == '40') player.try_move(0,1);
+      if(e.key=="a" || e.keyCode == '37') player.try_move(-1,0);
+      if(e.key=="d" || e.keyCode == '39') player.try_move(1,0);
+    }
   };
 
   setup_canvas();
-  generate_level();
-  player = new Player(get_random_passable_tile());
-
   draw_game();
   setInterval(draw_game, 15);
 </script>
