@@ -44,6 +44,7 @@ function draw_game() {
 }
 
 function tick() {
+  //update monsters
   for (let k=monsters.length-1;k>=0;k--){
     if (!monsters[k].dead) {
       monsters[k].update();
@@ -51,8 +52,17 @@ function tick() {
       monsters.splice(k,1);
     }
   }
+  //check for player death
   if (player.dead) {
     game_state = "dead";
+  }
+  //spawn new monsters on level
+  spawn_counter--;
+  if (spawn_counter <=0) {
+    spawn_monster();
+    spawn_rate--;
+    spawn_counter = spawn_rate;
+    spawn_rate = Math.max(spawn_rate,2);
   }
 }
 
@@ -69,6 +79,8 @@ function start_game() {
 }
 
 function start_level(_hp) {
+  spawn_rate = 15;
+  spawn_counter = spawn_rate;
   generate_level();
   player = new Player(get_random_passable_tile());
   player.hp = _hp;
