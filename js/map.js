@@ -55,7 +55,7 @@ function generate_monsters() {
 }
 
 function spawn_monster() {
-  let monster_type = shuffle([Zombie, Skeleton, Bloater, Vampire, Ghost])[0];
+  let monster_type = shuffle([Normal, Fast, Tank, Digger, Jester])[0];
   let monster = new monster_type(get_random_passable_tile());
   monsters.push(monster);
 }

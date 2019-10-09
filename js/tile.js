@@ -15,6 +15,7 @@ class Tile {
   get_neighbor(dx,dy){
     return get_tile(this.x + dx, this.y + dy);
   }
+
   get_adjacent_neighbors(){
     return shuffle([
       this.get_neighbor(0, -1),
@@ -23,9 +24,11 @@ class Tile {
       this.get_neighbor(1, 0)
     ]);
   }
+
   get_adjacent_passable_neighbors(){
     return this.get_adjacent_neighbors().filter(t => t.passable);
   }
+
   get_connected_tiles(){
     let connected_tiles = [this];
     let frontier = [this];
@@ -39,6 +42,10 @@ class Tile {
     return connected_tiles;
   }
 
+  replace(new_type) {
+    current_tiles[this.x][this.y] = new new_type(this.x, this.y);
+    return current_tiles[this.x][this.y];
+  }
 
   draw(){
     draw_sprite(this.sprite, this.x, this.y);
