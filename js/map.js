@@ -3,6 +3,9 @@ function generate_level() {
     return generate_tiles() == get_random_passable_tile().get_connected_tiles().length;
   });
   generate_monsters();
+  for (let i=0; i<monsters.length; i++) {
+    monsters[i].teleport_counter = 0;
+  }
 }
 
 function generate_tiles(){

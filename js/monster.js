@@ -3,12 +3,18 @@ class Monster {
     this.move(tile);
     this.sprite = sprite;
     this.hp = hp;
+
     this.max_hp = 6;
+    this.teleport_counter = 1;
   }
 
   draw() {
-    draw_sprite(this.sprite, this.tile.x, this.tile.y);
-    this.draw_hp();
+    if (this.teleport_counter > 0) {
+      draw_sprite(10, this.tile.x, this.tile.y);
+    }else{
+      draw_sprite(this.sprite, this.tile.x, this.tile.y);
+      this.draw_hp();
+    }
   }
 
   draw_hp(){ //TODO redo this with line or something?
@@ -22,8 +28,9 @@ class Monster {
   }
 
   update() {
+    this.teleport_counter--;
     //stunned mobs do do_stuff
-    if (this.stunned) {
+    if (this.stunned || this.teleport_counter>0) {
       this.stunned = false;
       return;
     }
@@ -98,6 +105,7 @@ class Player extends Monster {
   constructor(tile) {
     super(tile, 0, 3); // TODO change sprite here
     this.isPlayer = true;
+    this.teleport_counter = 0;
   }
   try_move(dx,dy) {
     if (super.try_move(dx,dy)){
