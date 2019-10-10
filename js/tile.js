@@ -51,10 +51,21 @@ class Tile {
     draw_sprite(this.sprite, this.x, this.y);
   }
 }
-
+/*
+######## #### ##       ########  ######
+   ##     ##  ##       ##       ##    ##
+   ##     ##  ##       ##       ##
+   ##     ##  ##       ######    ######
+   ##     ##  ##       ##             ##
+   ##     ##  ##       ##       ##    ##
+   ##    #### ######## ########  ######
+*/
 class Floor extends Tile {
   constructor(x,y) {
     super(x,y,2,true);
+  }
+  step_on(who) {
+    //TODO finish this from tutorial
   }
 }
 
@@ -62,4 +73,21 @@ class Wall extends Tile {
   constructor(x,y) {
     super(x,y,3,false);
   }
+}
+
+class Exit extends Tile {
+  constructor(x,y) {
+    super(x,y,11,true);
+  }
+  step_on(who) {
+    if (who.isPlayer) {
+      if (level==num_levels) {
+        show_title();
+      }else{
+        level++;
+        start_level(Math.min(player.max_hp, player.hp+1));
+      }
+    }
+  }
+
 }

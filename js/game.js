@@ -84,4 +84,6 @@ function start_level(_hp) {
   generate_level();
   player = new Player(get_random_passable_tile());
   player.hp = _hp;
+
+  get_random_passable_tile().replace(Exit);
 }

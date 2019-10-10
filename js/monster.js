@@ -70,6 +70,7 @@ class Monster {
     }
     this.tile = tile;
     tile.monster = this;
+    tile.step_on(this);
   }
 
   hit(damage) {
