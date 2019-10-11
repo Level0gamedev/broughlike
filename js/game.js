@@ -2,12 +2,13 @@ function setup_canvas() {
   canvas = document.querySelector("canvas");
   ctx = canvas.getContext("2d");
 
-  canvas.width = tile_size * (num_tiles + ui_width);
-  canvas.height = tile_size * num_tiles;
+  canvas.width = tile_size * (num_tiles + ui_width) *scale;
+  canvas.height = tile_size * num_tiles *scale;
   canvas.style.width = canvas.width + 'px';
   canvas.style.height = canvas.height + 'px';
 
   ctx.imageSmoothingEnabled = false;
+  ctx.scale(scale,scale);
 }
 
 function draw_sprite(sprite,x,y) {
@@ -40,6 +41,7 @@ function draw_game() {
     }
     //draw player
     player.draw();
+    print("Level: "+level,160,4, {centered:"ui"})
   }
 }
 
@@ -70,6 +72,8 @@ function show_title() {
   ctx.fillStyle = 'rgba(0,0,0,.75)';
   ctx.fillRect(0,0,canvas.width, canvas.height);
   game_state = "title";
+  print("working", 0,39, {size:3, centered:"game"});
+  print("TITLE", 0, 64, {size:6, centered:"game"});
 }
 
 function start_game() {

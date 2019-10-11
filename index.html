@@ -4,14 +4,18 @@
     <meta charset="utf-8">
     <title>TODO Title</title>
     <style>
-        canvas{
-            outline: 1px solid white;
-        }
-        body{
-            background-color: #1b1513; //TODO change bg color
-            text-align: center;
-            margin-top: 50px;
-        }
+      @font-face {
+        font-family: 'main_font';
+        src: url('assets/04b03.TTF');
+      }
+      canvas{
+          outline: 1px solid white;
+      }
+      body{
+          background-color: #1b1513; //TODO change bg color
+          text-align: center;
+          margin-top: 50px;
+      }
     </style>
 </head>
 
@@ -40,9 +44,10 @@
 
   art_size = 16; //actual size of art assets
   scale = 4;  //TODO make scalable with window size
-  tile_size = art_size * scale; //rendered size of art aseets
+  tile_size = art_size //* scale; //rendered size of art aseets
   num_tiles = 9;
-  ui_width = 4;
+  num_tiles_w = 12;
+  ui_width = 7
 
   level = 1;
   num_levels = 6;
