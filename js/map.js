@@ -6,6 +6,9 @@ function generate_level() {
   for (let i=0; i<monsters.length; i++) {
     monsters[i].teleport_counter = 0;
   }
+  for (let i=0; i<3; i++) {
+    get_random_passable_tile().treasure = true;
+  }
 }
 
 function generate_tiles(){
@@ -44,7 +47,7 @@ function get_random_passable_tile(){
     let x = random_range(0,num_tiles-1);
     let y = random_range(0,num_tiles-1);
     tile = get_tile(x,y);
-    return tile.passable && !tile.monster;
+    return tile.passable && !tile.monster && !tile.treasure;
   });
   return tile;
 }

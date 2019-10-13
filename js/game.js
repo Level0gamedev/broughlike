@@ -41,7 +41,8 @@ function draw_game() {
     }
     //draw player
     player.draw();
-    print("Level: "+level,160,4, {centered:"ui"})
+    print("Level: "+level,160,4, {centered:"ui"});
+    print("Score: "+score,160,16, {centered:"ui"});
   }
 }
 
@@ -78,6 +79,7 @@ function show_title() {
 
 function start_game() {
   level = 1;
+  score = 0;
   start_level(starting_hp);
   game_state = "dungeon";
 }

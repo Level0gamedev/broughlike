@@ -13,7 +13,7 @@ class Monster {
       draw_sprite(10, this.tile.x, this.tile.y);
     }else{
       draw_sprite(this.sprite, this.tile.x, this.tile.y);
-      this.draw_hp();
+      //this.draw_hp();
     }
   }
 
@@ -99,7 +99,16 @@ class Monster {
 ##     ## ##             ##    ##     ##  ######### ##   ##      ##
 ##     ## ##       ##    ##    ##     ##  ##     ## ##    ##     ##
 ########  ########  ######     ##    #### ##     ## ##     ##    ##
-
+* knock you back
+* do double damage
+* poison you
+* break into multiple smaller monsters or the reverse
+* walk through walls
+* leave behind something on the floor that hurts you or other enemies
+* are hidden until reaching some condition (nearby, hurt)
+* heal other monsters at the cost of their own hp
+* take your treasure
+* cast spells
 */
 
 class Player extends Monster {
