@@ -6,23 +6,28 @@ class Monster {
 
     this.max_hp = 6;
     this.teleport_counter = 1;
+
+    this.offsetX = 0;
+    this.offsetY = 0;
   }
 
   draw() {
     if (this.teleport_counter > 0) {
-      draw_sprite(10, this.tile.x, this.tile.y);
+      draw_sprite(10, this.get_display_x(), this.get_display_y());
     }else{
-      draw_sprite(this.sprite, this.tile.x, this.tile.y);
+      draw_sprite(this.sprite, this.get_display_x(), this.get_display_y());
       //this.draw_hp();
     }
+    this.offsetX -= Math.sign(this.offsetX)*(1/8);
+    this.offsetY -= Math.sign(this.offsetY)*(1/8);
   }
 
   draw_hp(){ //TODO redo this with line or something?
     for (let i=0; i<this.hp; i++){
       draw_sprite(
         9,
-        this.tile.x + (i%3)*(5/16),
-        this.tile.y - Math.floor(i/3)*(5/16)
+        this.get_display_x() + (i%3)*(5/16),
+        this.get_display_y() - Math.floor(i/3)*(5/16)
       );
     }
   }
@@ -58,6 +63,7 @@ class Monster {
           this.attacked_this_turn = true; //remember that you attacked already (dor double movement)
           new_tile.monster.stunned = true; //stun monster so they don't attack
           new_tile.monster.hit(1); //deal damage
+          this.bump(new_tile) //bump animation
         }
       }
       return true;
@@ -67,10 +73,20 @@ class Monster {
   move(tile) {
     if (this.tile) {
       this.tile.monster = null;
+
+      this.offsetX = this.tile.x - tile.x;
+      this.offsetY = this.tile.y - tile.y;
     }
     this.tile = tile;
     tile.monster = this;
     tile.step_on(this);
+  }
+
+  get_display_x() {
+    return this.tile.x + this.offsetX;
+  }
+  get_display_y() {
+    return this.tile.y + this.offsetY;
   }
 
   hit(damage) {
@@ -81,6 +97,8 @@ class Monster {
   }
 
   die() {
+    this.offsetX = 0;
+    this.offsetY = 0;
     this.dead = true;
     this.tile.monster = null;
     this.sprite = 1;
@@ -88,6 +106,11 @@ class Monster {
 
   heal(damage) {
     this.hp = Math.min(this.max_hp, this.hp+damage);
+  }
+
+  bump(_tile) {
+    this.offsetX = (_tile.x - this.tile.x)/2;
+    this.offsetY = (_tile.y - this.tile.y)/2;
   }
 }
 

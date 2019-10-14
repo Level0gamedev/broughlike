@@ -140,7 +140,7 @@ function draw_scores() {
 
     scores.unshift(newestScore);
 
-    for(let i=0;i<Math.min(10,scores.length);i++){
+    for(let i=0;i<Math.min(8,scores.length);i++){
       let scoreText = right_pad([scores[i].run, scores[i].score, scores[i].totalScore]);
       print(scoreText, 0,_y+8*i+8,{centered:"game"});
     }
