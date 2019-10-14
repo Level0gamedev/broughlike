@@ -88,6 +88,7 @@ class Exit extends Tile {
   step_on(who) {
     if (who.isPlayer) {
       if (level==num_levels) {
+        add_score(score, true);
         show_title();
       }else{
         level++;

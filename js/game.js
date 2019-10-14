@@ -57,6 +57,8 @@ function tick() {
   }
   //check for player death
   if (player.dead) {
+    add_score(score, false);
+
     game_state = "dead";
   }
   //spawn new monsters on level
@@ -73,8 +75,10 @@ function show_title() {
   ctx.fillStyle = 'rgba(0,0,0,.75)';
   ctx.fillRect(0,0,canvas.width, canvas.height);
   game_state = "title";
-  print("working", 0,39, {size:3, centered:"game"});
-  print("TITLE", 0, 64, {size:6, centered:"game"});
+  print("working", 0,15, {size:3, centered:"game"});
+  print("TITLE", 0, 40, {size:3, centered:"game"});
+
+  draw_scores();
 }
 
 function start_game() {
@@ -92,4 +96,53 @@ function start_level(_hp) {
   player.hp = _hp;
 
   get_random_passable_tile().replace(Exit);
+}
+
+function get_score() {
+  if(localStorage["scores"]){
+      return JSON.parse(localStorage["scores"]);
+  }else{
+      return [];
+  }
+}
+
+function add_score(score, won){
+    let scores = get_score();
+    let scoreObject = {score: score, run: 1, totalScore: score, active: won};
+    let lastScore = scores.pop();
+
+    if(lastScore){
+        if(lastScore.active){
+            scoreObject.run = lastScore.run+1;
+            scoreObject.totalScore += lastScore.totalScore;
+        }else{
+            scores.push(lastScore);
+        }
+    }
+    scores.push(scoreObject);
+    localStorage["scores"] = JSON.stringify(scores);
+}
+
+function draw_scores() {
+  let scores = get_score();
+  let _y = 65;
+  if (scores.length) {
+    print(
+      right_pad(["RUN","SCORE","TOTAL"]),
+      0,_y,
+      {centered:"game"}
+    );
+
+    let newestScore = scores.pop();
+    scores.sort(function(a,b) {
+      return b.totalScore - a.totalScore;
+    });
+
+    scores.unshift(newestScore);
+
+    for(let i=0;i<Math.min(10,scores.length);i++){
+      let scoreText = right_pad([scores[i].run, scores[i].score, scores[i].totalScore]);
+      print(scoreText, 0,_y+8*i+8,{centered:"game"});
+    }
+  }
 }

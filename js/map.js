@@ -3,9 +3,11 @@ function generate_level() {
     return generate_tiles() == get_random_passable_tile().get_connected_tiles().length;
   });
   generate_monsters();
+  //make starting monsters visible from the start
   for (let i=0; i<monsters.length; i++) {
     monsters[i].teleport_counter = 0;
   }
+  //generate treassure - TODO later
   for (let i=0; i<3; i++) {
     get_random_passable_tile().treasure = true;
   }

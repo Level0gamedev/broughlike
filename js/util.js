@@ -41,3 +41,15 @@ function print(text, x, y, options = {}) {
   }
   ctx.fillText(text, x, y);
 }
+
+function right_pad(txtarray) {
+  let final_text = "";
+  txtarray.forEach(text => {
+    text+="";
+    for(let i=text.length;i<8;i++){
+        text+=" ";
+    }
+    final_text += text;
+});
+return final_text;
+}
