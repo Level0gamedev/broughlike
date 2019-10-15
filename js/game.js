@@ -1,3 +1,12 @@
+/*
+ ######  ######## ######## ##     ## ########
+##    ## ##          ##    ##     ## ##     ##
+##       ##          ##    ##     ## ##     ##
+ ######  ######      ##    ##     ## ########
+      ## ##          ##    ##     ## ##
+##    ## ##          ##    ##     ## ##
+ ######  ########    ##     #######  ##
+*/
 function setup_canvas() {
   canvas = document.querySelector("canvas");
   ctx = canvas.getContext("2d");
@@ -10,7 +19,15 @@ function setup_canvas() {
   ctx.imageSmoothingEnabled = false;
   ctx.scale(scale,scale);
 }
-
+/*
+########  ########     ###    ##      ##
+##     ## ##     ##   ## ##   ##  ##  ##
+##     ## ##     ##  ##   ##  ##  ##  ##
+##     ## ########  ##     ## ##  ##  ##
+##     ## ##   ##   ######### ##  ##  ##
+##     ## ##    ##  ##     ## ##  ##  ##
+########  ##     ## ##     ##  ###  ###
+*/
 function draw_sprite(sprite,x,y) {
   ctx.drawImage(
     spritesheet,
@@ -43,6 +60,7 @@ function draw_game() {
     }
     //draw player
     player.draw();
+    queue_animations();
     print("Level: "+level,160,4, {centered:"ui"});
     print("Score: "+score,160,16, {centered:"ui"});
   }
@@ -57,8 +75,16 @@ function screenshake(){
   shake_y = Math.round(Math.sin(shake_angle)*shake_amount);
 
 }
-
-function tick() {
+/*
+##     ## ########  ########     ###    ######## ########
+##     ## ##     ## ##     ##   ## ##      ##    ##
+##     ## ##     ## ##     ##  ##   ##     ##    ##
+##     ## ########  ##     ## ##     ##    ##    ######
+##     ## ##        ##     ## #########    ##    ##
+##     ## ##        ##     ## ##     ##    ##    ##
+ #######  ##        ########  ##     ##    ##    ########
+*/
+function take_turn() {
   //update monsters
   for (let k=monsters.length-1;k>=0;k--){
     if (!monsters[k].dead) {
@@ -82,6 +108,62 @@ function tick() {
     spawn_rate = Math.max(spawn_rate,2);
   }
 }
+function queue_animations() {
+  ///this is messy, don't look!
+  if (p_t != -1) {
+    p_t += 0.125;
+  }
+  if (p_t > 1) {
+    p_t = -1;
+    player.state = "idle"
+  }
+  if (p_t == 0.375) {
+    m_t = 0;
+  }
+  if (m_t != -1) {
+    m_t += 0.125;
+  }
+  if (m_t > 1) {
+    m_t = -1;
+  }
+  console.log(player.state)
+}
+
+function animate(who) {
+  let _t=0;
+  if (who.isPlayer) {
+    _t = p_t;
+  }else{
+    _t = m_t;
+  }
+
+  if (_t != -1) {
+    let tme = _t;
+    if (who.state=="walk") {
+      who.offsetX = who.offsetX*(1-_t);
+      who.offsetY = who.offsetY*(1-_t);
+    }
+    if (who.state=="bump") {
+      if (_t>0.5) {
+        tme = 1-_t
+      }
+      who.offsetX = who.offsetX*(1-tme);
+      who.offsetY = who.offsetY*(1-tme);
+    }
+  }
+}
+
+
+/*
+ ######      ###    ##     ## ########     ######  ########    ###    ######## ########  ######
+##    ##    ## ##   ###   ### ##          ##    ##    ##      ## ##      ##    ##       ##    ##
+##         ##   ##  #### #### ##          ##          ##     ##   ##     ##    ##       ##
+##   #### ##     ## ## ### ## ######       ######     ##    ##     ##    ##    ######    ######
+##    ##  ######### ##     ## ##                ##    ##    #########    ##    ##             ##
+##    ##  ##     ## ##     ## ##          ##    ##    ##    ##     ##    ##    ##       ##    ##
+ ######   ##     ## ##     ## ########     ######     ##    ##     ##    ##    ########  ######
+*/
+
 
 function show_title() {
   ctx.fillStyle = 'rgba(0,0,0,.75)';
@@ -109,6 +191,15 @@ function start_level(_hp) {
 
   get_random_passable_tile().replace(Exit);
 }
+/*
+ ######   ######   #######  ########  ########
+##    ## ##    ## ##     ## ##     ## ##
+##       ##       ##     ## ##     ## ##
+ ######  ##       ##     ## ########  ######
+     ##  ##       ##     ## ##   ##   ##
+##    ## ##    ## ##     ## ##    ##  ##
+ ######   ######   #######  ##     ## ########
+*/
 
 function get_score() {
   if(localStorage["scores"]){

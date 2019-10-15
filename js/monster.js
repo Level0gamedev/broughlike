@@ -9,6 +9,7 @@ class Monster {
 
     this.offsetX = 0;
     this.offsetY = 0;
+    this.state = "idle";
   }
 
   draw() {
@@ -18,8 +19,7 @@ class Monster {
       draw_sprite(this.sprite, this.get_display_x(), this.get_display_y());
       //this.draw_hp();
     }
-    this.offsetX -= Math.sign(this.offsetX)*(1/8);
-    this.offsetY -= Math.sign(this.offsetY)*(1/8);
+    animate(this);
   }
 
   draw_hp(){ //TODO redo this with line or something?
@@ -64,23 +64,36 @@ class Monster {
           new_tile.monster.stunned = true; //stun monster so they don't attack
           new_tile.monster.hit(1); //deal damage
           this.bump(new_tile) //bump animation
-          shake_amount = 3;
+          shake_amount = 4;
         }
       }
       return true;
+    }else{ //if not passable, do a bump
+      if (this.isPlayer) {
+        this.bump(new_tile,4);
+        p_t = 0;
+      }
+
     }
   }
 
   move(tile) {
     if (this.tile) {
       this.tile.monster = null;
-
       this.offsetX += this.tile.x - tile.x;
       this.offsetY += this.tile.y - tile.y;
+      this.state = "walk"
     }
     this.tile = tile;
     tile.monster = this;
     tile.step_on(this);
+  }
+
+  bump(tile, force) {
+    force = force || 2;
+    this.offsetX = -(this.tile.x - tile.x)/force;
+    this.offsetY = -(this.tile.y - tile.y)/force;
+    this.state = "bump"
   }
 
   get_display_x() {
@@ -109,10 +122,7 @@ class Monster {
     this.hp = Math.min(this.max_hp, this.hp+damage);
   }
 
-  bump(_tile) {
-    this.offsetX = (_tile.x - this.tile.x)/2;
-    this.offsetY = (_tile.y - this.tile.y)/2;
-  }
+
 }
 
 /*
@@ -143,7 +153,8 @@ class Player extends Monster {
   }
   try_move(dx,dy) {
     if (super.try_move(dx,dy)){
-      tick();
+      take_turn();
+      p_t = 0;
     }
   }
 }
