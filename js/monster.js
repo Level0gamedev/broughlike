@@ -64,6 +64,7 @@ class Monster {
           new_tile.monster.stunned = true; //stun monster so they don't attack
           new_tile.monster.hit(1); //deal damage
           this.bump(new_tile) //bump animation
+          shake_amount = 3;
         }
       }
       return true;
@@ -74,8 +75,8 @@ class Monster {
     if (this.tile) {
       this.tile.monster = null;
 
-      this.offsetX = this.tile.x - tile.x;
-      this.offsetY = this.tile.y - tile.y;
+      this.offsetX += this.tile.x - tile.x;
+      this.offsetY += this.tile.y - tile.y;
     }
     this.tile = tile;
     tile.monster = this;

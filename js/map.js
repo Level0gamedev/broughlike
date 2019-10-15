@@ -6,6 +6,7 @@ function generate_level() {
   //make starting monsters visible from the start
   for (let i=0; i<monsters.length; i++) {
     monsters[i].teleport_counter = 0;
+    monsters[i].stunned = true;
   }
   //generate treassure - TODO later
   for (let i=0; i<3; i++) {
