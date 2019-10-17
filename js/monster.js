@@ -200,6 +200,7 @@ class Digger extends Monster { // destroys walls
     let n = this.tile.get_adjacent_neighbors().filter(t => !t.passable && in_bounds(t.x, t.y)); //TODO change passable to non-essential tiles
     if (n.length) {
       n[0].replace(Floor);
+      this.bump(n[0]);
       this.heal(0.5);
     }else{
       super.do_stuff();

@@ -2,6 +2,7 @@ function generate_level() {
   try_to('generate the level', function(){
     return generate_tiles() == get_random_passable_tile().get_connected_tiles().length;
   });
+
   generate_monsters();
   //make starting monsters visible from the start
   for (let i=0; i<monsters.length; i++) {
@@ -12,6 +13,7 @@ function generate_level() {
   for (let i=0; i<3; i++) {
     get_random_passable_tile().treasure = true;
   }
+  exit_tile.passable = true;
 }
 
 function generate_tiles(){
@@ -20,7 +22,6 @@ function generate_tiles(){
   for (let i = 0; i < num_tiles; i++) {
     current_tiles[i] = [];
     for (let j = 0; j < num_tiles; j++) {
-      current_tiles[i][j] = new Wall(i,j);
       if (Math.random() < 0.25 || !in_bounds(i,j)) {
         current_tiles[i][j] = new Wall(i,j);
       }else{
@@ -29,6 +30,9 @@ function generate_tiles(){
       }
     }
   }
+  exit_tile = get_random_passable_tile().replace(Exit);
+  exit_tile.passable = false;
+  passable_tiles--;
   return passable_tiles;
 }
 
