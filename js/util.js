@@ -36,8 +36,8 @@ function print(text, x, y, options = {}) {
   ctx.font = 8*options.size + "px main_font";
   if (options.centered=="game") {
     x = ((canvas.width/scale) - ctx.measureText(text).width) /2;
-  }else if (options.centered=="ui") {
-    x = ((ui_width*16) - ctx.measureText(text).width) /2 + 144;
+  }else if (options.centered=="sidebar") {
+    x = ((sidebar_tiles_w*16) - ctx.measureText(text).width) /2 + dungeon_tiles*16;
   }
   ctx.fillText(text, x, y);
 }

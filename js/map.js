@@ -13,15 +13,15 @@ function generate_level() {
   for (let i=0; i<3; i++) {
     get_random_passable_tile().treasure = true;
   }
-  exit_tile.passable = true;
+
 }
 
 function generate_tiles(){
   let passable_tiles = 0;
   current_tiles = []
-  for (let i = 0; i < num_tiles; i++) {
+  for (let i = 0; i < dungeon_tiles; i++) {
     current_tiles[i] = [];
-    for (let j = 0; j < num_tiles; j++) {
+    for (let j = 0; j < dungeon_tiles; j++) {
       if (Math.random() < 0.25 || !in_bounds(i,j)) {
         current_tiles[i][j] = new Wall(i,j);
       }else{
@@ -37,7 +37,7 @@ function generate_tiles(){
 }
 
 function in_bounds(x,y){
-    return x>0 && y>0 && x<num_tiles-1 && y<num_tiles-1;
+    return x>0 && y>0 && x<dungeon_tiles-1 && y<dungeon_tiles-1;
 }
 
 function get_tile(x,y){
@@ -51,8 +51,8 @@ function get_tile(x,y){
 function get_random_passable_tile(){
   let tile;
   try_to('get random passable tile', function(){
-    let x = random_range(0,num_tiles-1);
-    let y = random_range(0,num_tiles-1);
+    let x = random_range(0,dungeon_tiles-1);
+    let y = random_range(0,dungeon_tiles-1);
     tile = get_tile(x,y);
     return tile.passable && !tile.monster && !tile.treasure;
   });

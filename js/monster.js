@@ -10,13 +10,15 @@ class Monster {
     this.offsetX = 0;
     this.offsetY = 0;
     this.state = "idle";
+
+    this.flipped = false;
   }
 
   draw() {
     if (this.teleport_counter > 0) {
       draw_sprite(10, this.get_display_x(), this.get_display_y());
     }else{
-      draw_sprite(this.sprite, this.get_display_x(), this.get_display_y());
+      draw_sprite(this.sprite, this.get_display_x(), this.get_display_y(), this.flipped);
       //this.draw_hp();
     }
     animate(this);
@@ -64,7 +66,7 @@ class Monster {
           new_tile.monster.stunned = true; //stun monster so they don't attack
           new_tile.monster.hit(1); //deal damage
           this.bump(new_tile) //bump animation
-          shake_amount = 4;
+          shake_amount = 3;
         }
       }
       return true;
@@ -82,6 +84,8 @@ class Monster {
       this.tile.monster = null;
       this.offsetX += this.tile.x - tile.x;
       this.offsetY += this.tile.y - tile.y;
+      if (this.offsetX == -1) this.flipped = false;
+      if (this.offsetX == 1) this.flipped = true; 
       this.state = "walk"
     }
     this.tile = tile;
@@ -150,6 +154,7 @@ class Player extends Monster {
     super(tile, 0, 3); // TODO change sprite here
     this.isPlayer = true;
     this.teleport_counter = 0;
+    this.flipped = false;
   }
   try_move(dx,dy) {
     if (super.try_move(dx,dy)){

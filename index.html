@@ -14,7 +14,7 @@
       body{
           background-color: #1b1513; //TODO change bg color
           text-align: center;
-          margin-top: 50px;
+          margin-top: 8px;
       }
     </style>
 </head>
@@ -42,12 +42,13 @@
  ######   ######  ##     ## #### ##           ##
 */
 
-  art_size = 16; //actual size of art assets
+  tile_size = 16; //actual size of art assets
   scale = 4;  //TODO make scalable with window size
-  tile_size = art_size //* scale; //rendered size of art aseets
-  num_tiles = 9;
-  num_tiles_w = 12;
-  ui_width = 7
+  dungeon_tiles = 12;
+  sidebar_tiles_w = 4;
+  game_tiles_h = dungeon_tiles;
+  game_tiles_w = dungeon_tiles+sidebar_tiles_w;
+
 
   level = 1;
   num_levels = 6;
@@ -69,8 +70,6 @@
   starting_hp = 3;
   levels = 6;
 
-  exit_tile = 0;
-
   document.querySelector("html").onkeydown = function(e){
     if (game_state == "title") {
       start_game();
@@ -80,8 +79,8 @@
       //movement function
       if(e.key=="w" || e.keyCode == '38') player.try_move(0,-1);
       if(e.key=="s" || e.keyCode == '40') player.try_move(0,1);
-      if(e.key=="a" || e.keyCode == '37') player.try_move(-1,0);
-      if(e.key=="d" || e.keyCode == '39') player.try_move(1,0);
+      if(e.key=="a" || e.keyCode == '37') player.try_move(-1,0), player.flipped = true;
+      if(e.key=="d" || e.keyCode == '39') player.try_move(1,0), player.flipped = false;
     }
   };
 
